@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,600,700,800,900&display=swap');
+
+$connectedDevicesHeight: 130px;
+$screen-sm-max: 767.98px;
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+:root{
+  --font-serif: 'Playfair Display', serif;
+}
+
+html{
+  --color-primary: #538797;
+  --color-2: #c2d9cd;
+  --color-3: #ff842a;
+  --color-4: #fed55d;
+  --color-5: #fcfaf1;
+
+  --color-background: #fff;
+  --color-text: #161719;
+  --color-light-grey: #f4f4f4;
+  --color-light-grey-darken: #eee;
+  --color-dark-grey: #666;
+
+  &.deviceIdentificationTriggered, &.darkMode{
+    --color-background: #161719;
+    --color-text: #fff;
+    --color-light-grey: #2c2c2e;
+    --color-light-grey-darken: #3a3a3c;
+    --color-dark-grey: #636366;
+    --color-dark-grey: #8e8e93;
+  }
+}
+
+body{
+  margin:0;
+  padding:0;
+  font-size: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background: var(--color-background);
+  color: var(--color-text);
+  transition: all .5s ease 0s;
+}
+
+p{
+  margin:0;
+}
+
+.button{
+  $button-padding-t-b: 10px;
+
+  -webkit-appearance: none;
+  user-select: none;
+  background: var(--color-5);
+  color: var(--color-dark-grey);
+  font-size:1rem;
+  border-radius:50px;
+  outline: none;
+  cursor: pointer;
+  padding: $button-padding-t-b 20px;
+  line-height: 1rem;
+  border: none;
+  border: 1px solid var(--color-dark-grey);
+  background: var(--color-light-grey);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  font-weight: 500;
+  font-size: .9rem;
+  transition: all ease .5s;
+
+  &:hover, &:focus{
+    border-color: var(--color-primary);
+    background: var(--color-primary);
+    color: var(--color-5);
+  }
+
+  &.button-circle{
+    height: calc(1rem + #{$button-padding-t-b} * 2 + 2px);
+    width: calc(1rem + #{$button-padding-t-b} * 2 + 2px);
+    padding: 0;
+    font-size: 1.4rem;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.button-icon{
+    img, svg{
+      display: block;
+      height: 45%;
+
+      path{
+        fill: var(--color-dark-grey);
+      }
+    }
+
+    &:hover, &:focus{
+      img, svg{
+        display: block;
+        height: 45%;
+  
+        path{
+          fill: var(--color-5);
+        }
+      }
+    }
+  }
+}

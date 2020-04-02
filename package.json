@@ -1,8 +1,8 @@
 {
-  "name": "webpack-template",
+  "name": "Infographic UN Sustainable Goal 6.1",
   "author": "André Lergier",
   "version": "0.0.1",
-  "description": "webpack base template with scss, babel & dev server.",
+  "description": "Infographic about the UN Sustainable Goal 6.1",
   "scripts": {
     "build": "webpack --config ./config/webpack.prod.cjs",
     "watch": "webpack --watch --config ./config/webpack.dev.cjs",
@@ -33,6 +33,7 @@
     }
   },
   "dependencies": {
+    "d3": "^5.15.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
