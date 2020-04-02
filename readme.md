@@ -1,14 +1,18 @@
 # Infographic about UN Sustainable Goal 6
 This is a project I did in the course __Studio Information Aesthetics & Engineering Extended__ in my Digital Ideation studies at Lucerne University of Applied Science and Arts HSLU.
 
-> __Goal 6 Clean Water and Sanitation__:
-> Ensure availability and sustainable management of water and sanitation for all.
->
-> __Target 6.1 Universal Access__:
-> By 2030, achieve universal and equitable access to safe and affordable drinking water for all.
->
-> __Indicator 6.1.1__:
-> Proportion of population using safely managed drinking water services.
+---
+
+__Goal 6 Clean Water and Sanitation__:<br>
+Ensure availability and sustainable management of water and sanitation for all.<br>
+
+__Target 6.1 Universal Access__:<br>
+By 2030, achieve universal and equitable access to safe and affordable drinking water for all.<br>
+
+__Indicator 6.1.1__:<br>
+Proportion of population using safely managed drinking water services.<br>
+
+---
 
 ## Process
 The first thing I did are data analysis. It's quite a big dataset so I had the challenge to find some interesting facts in it.<br>
