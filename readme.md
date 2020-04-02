@@ -1,13 +1,13 @@
 # Infographic about UN Sustainable Goal 6
 This is a project I did in the course __Studio Information Aesthetics & Engineering Extended__ in my Digital Ideation studies at Lucerne University of Applied Science and Arts HSLU.
 
-> #### Goal 6 __Clean Water and Sanitation__:
+> __Goal 6 Clean Water and Sanitation__:
 > Ensure availability and sustainable management of water and sanitation for all.
 >
-> #### Target 6.1 __Universal Access__:
+> __Target 6.1 Universal Access__:
 > By 2030, achieve universal and equitable access to safe and affordable drinking water for all.
 >
-> #### Indicator 6.1.1:
+> __Indicator 6.1.1__:
 > Proportion of population using safely managed drinking water services.
 
 ## Process
@@ -48,16 +48,18 @@ Based on Sketch number 3 I created a detailled version
 ## Code in D3
 
 ## Links
+#### Sustainable Development Goals
 - Sustainable Development Goals Knowledge Platform: https://sustainabledevelopment.un.org/?menu=1300
-  - Sustainable Development Goal 6: https://sustainabledevelopment.un.org/sdg6
+- Sustainable Development Goal 6: https://sustainabledevelopment.un.org/sdg6
 - Mapping of the UN sustainable Development Goals: https://www.sdgmapping.ch/
   - Link to Target 6.1: https://maps.kontextlab.com/client/unitednations/98#m=3/638.47616/144.88919,p=2
 - Data Download: https://unstats.un.org/sdgs/indicators/database
 
-
+#### D3.js
 - D3: https://d3js.org/
   - Github Wiki: https://github.com/d3/d3/wiki
   - Tutorial: https://observablehq.com/@d3/learn-d3
 
+#### Diverses
 - Pinterest Board: https://www.pinterest.ch/andrelergier/data-visualization/
 
