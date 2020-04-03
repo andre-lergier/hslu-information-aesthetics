@@ -13,13 +13,19 @@ import * as d3 from 'd3';
 class DataVis {
   constructor() {
     this.dataSrcCsv = 'static/data/sustainable-development-goal-6-1.csv';
-    this.dataSrcJson = 'static/data/values@1.json';
+    this.isResizing = false;
+
     this.colors = {
       rural: '#a3b147',
       allarea: '#e7b44d',
       urban: '#274c71',
     };
+
     this.circleRadius = 6;
+    this.lineWidth = '1px';
+    this.minDiagramWidth = 900;
+
+    this.initListeners();
   }
 
   loadCsv() {
@@ -30,12 +36,30 @@ class DataVis {
     return d3.json(this.dataSrcJson, d3.autoType);
   }
 
+  initListeners() {
+    window.addEventListener('resize', this.resizeWindow.bind(this));
+  }
+
+  resizeWindow() {
+    if (document.querySelector('.chart').offsetWidth > this.minDiagramWidth) {
+      this.redrawDiagram();
+    }
+  }
+
+  redrawDiagram() {
+    d3.select('.chart').selectAll('*').remove();
+    this.printDiagram();
+  }
+
   printDiagram() {
     const margin = {
       top: 10, right: 30, bottom: 250, left: 30,
     };
-    const chartWidth = document.querySelector('.chart').offsetWidth;
-    const chartHeight = chartWidth / 2;
+    let chartWidth = document.querySelector('.chart').offsetWidth;
+    if (chartWidth < this.minDiagramWidth) {
+      chartWidth = this.minDiagramWidth;
+    }
+    const chartHeight = chartWidth / 3;
 
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight + margin.top + margin.bottom;
@@ -65,21 +89,21 @@ class DataVis {
 
       // Y axis
       const y = d3.scaleLinear()
-        .domain([40, -55]) // min and max values of input data
+        .domain([55, -55]) // min and max values of input data
         .range([0, height]);
       svg.append('g')
         .call(d3.axisLeft(y));
 
 
       // Line rural to allarea
-      svg.select('zeroLine')
-        .append('line')
+      svg.append('line')
         .attr('x1', 0)
         .attr('x2', width)
-        .attr('y1', 0)
-        .attr('y2', 0)
-        .attr('stroke', 'green')
-        .attr('stroke-width', '1px');
+        .attr('y1', y(0))
+        .attr('y2', y(0))
+        .attr('stroke', 'black')
+        .attr('stroke-width', '1px')
+        .attr('id', 'zeroLine');
 
 
       // Line rural to allarea
@@ -92,7 +116,7 @@ class DataVis {
         .attr('y1', (d) => y(d.Rural2))
         .attr('y2', (d) => y(d.AllArea2))
         .attr('stroke', 'pink')
-        .attr('stroke-width', '1px');
+        .attr('stroke-width', (d) => (d.Rural2 == null || d.AllArea2 == null ? 0 : this.lineWidth));
 
       // Line rural to allarea
       svg.selectAll('my2line')
@@ -105,7 +129,7 @@ class DataVis {
         .attr('y1', (d) => y(d.AllArea2))
         .attr('y2', (d) => y(d.Urban2))
         .attr('stroke', 'green')
-        .attr('stroke-width', '1px');
+        .attr('stroke-width', (d) => (d.AllArea2 == null || d.Urban2 == null ? 0 : this.lineWidth));
 
       // Circles of rural
       svg.selectAll('myRuralCircle')

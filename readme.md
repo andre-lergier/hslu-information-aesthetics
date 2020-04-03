@@ -66,6 +66,7 @@ Based on Sketch number 3 I created a detailled version
 - Tutorial: https://www.tutorialsteacher.com/d3js
 - Lollipop-Diagram: https://www.d3-graph-gallery.com/graph/lollipop_cleveland.html
   - Basic Lollipop: https://www.d3-graph-gallery.com/graph/lollipop_basic.html
+  - Overview: https://www.d3-graph-gallery.com/lollipop.html
 - Load Data: https://blog.bitsrc.io/how-to-create-charts-from-external-data-sources-with-d3-js-4abbcb574706
 
 #### Diverses

@@ -18,6 +18,7 @@ html{
   --color-urban: #274c71;
 
   --color-background: #fff;
+  --color-chart-background: #fff;
   --color-text: #161719;
   --color-light-grey: #f4f4f4;
   --color-light-grey-darken: #eee;
@@ -41,6 +42,13 @@ body{
   background: var(--color-background);
   color: var(--color-text);
   transition: all .5s ease 0s;
+}
+
+.container{
+  max-width: 1600px;
+  margin-left:auto;
+  margin-right: auto;
+  padding:15px;
 }
 
 p{
@@ -108,7 +116,44 @@ p{
   }
 }
 
+.horizontal-scroll-container {
+  position: relative;
+
+  &::before, &::after{
+    content: "";
+    width: 25px;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    z-index: 2;
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(to left,var(--color-chart-background) 0,rgba(255,255,255,0) 100%);
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(to right,var(--color-chart-background) 0,rgba(255,255,255,0) 100%);
+  }
+}
+
+.chart-wrapper{
+  width:100%;
+  overflow-x: scroll;
+}
+
 .chart{
+  display: block;
+  width:100%;
+
+  &.resize{
+    filter: blur(10px);
+    transition: filter .5s ease;
+  }
+
   circle{
     &.rural{
       fill: var(--color-rural);
