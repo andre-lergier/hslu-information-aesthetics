@@ -11,7 +11,7 @@ module.exports = merge(common, {
   ],
   devtool: 'inline-cheap-source-map',
   devServer: {
-    contentBase: path.join(__dirname, '../dist'), // path to static files
+    contentBase: path.join(__dirname, '../static'), // path to static files
     compress: true,
     port: 9000,
   },

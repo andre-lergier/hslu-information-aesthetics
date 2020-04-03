@@ -13,10 +13,9 @@ $screen-sm-max: 767.98px;
 
 html{
   --color-primary: #538797;
-  --color-2: #c2d9cd;
-  --color-3: #ff842a;
-  --color-4: #fed55d;
-  --color-5: #fcfaf1;
+  --color-rural: #a3b147;
+  --color-allarea: #e7b44d;
+  --color-urban: #274c71;
 
   --color-background: #fff;
   --color-text: #161719;
@@ -105,6 +104,22 @@ p{
           fill: var(--color-5);
         }
       }
+    }
+  }
+}
+
+.chart{
+  circle{
+    &.rural{
+      fill: var(--color-rural);
+    }
+
+    &.allarea{
+      fill: var(--color-allarea);
+    }
+
+    &.urban{
+      fill: var(--color-urban);
     }
   }
 }

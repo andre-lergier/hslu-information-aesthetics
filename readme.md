@@ -62,7 +62,11 @@ Based on Sketch number 3 I created a detailled version
 #### D3.js
 - D3: https://d3js.org/
   - Github Wiki: https://github.com/d3/d3/wiki
-  - Tutorial: https://observablehq.com/@d3/learn-d3
+  - Get Started: https://observablehq.com/@d3/learn-d3
+- Tutorial: https://www.tutorialsteacher.com/d3js
+- Lollipop-Diagram: https://www.d3-graph-gallery.com/graph/lollipop_cleveland.html
+  - Basic Lollipop: https://www.d3-graph-gallery.com/graph/lollipop_basic.html
+- Load Data: https://blog.bitsrc.io/how-to-create-charts-from-external-data-sources-with-d3-js-4abbcb574706
 
 #### Diverses
 - Pinterest Board: https://www.pinterest.ch/andrelergier/data-visualization/
