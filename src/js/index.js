@@ -1,18 +1,10 @@
 import '../scss/style.scss';
-
 import * as d3 from 'd3';
-// import { FileAttachment } from 'd3';
-
-// data = d3.csvParse(await FileAttachment("data/aapl-bollinger.csv").text(), d3.autoType)
-
-// let values = FileAttachment('values@1.json').json();
-// let data = d3.csv('static/data/aapl-bollinger.csv', d3.autoType);
-// let data2 = await data;
-
 
 class DataVis {
   constructor() {
     this.dataSrcCsv = 'static/data/sustainable-development-goal-6-1.csv';
+    this.dataSrcCsvExtended = 'static/data/sustainable-development-goal-6-1.020.csv';
     this.isResizing = false;
 
     this.colors = {
@@ -23,13 +15,15 @@ class DataVis {
 
     this.circleRadius = 6;
     this.lineWidth = '1px';
-    this.minDiagramWidth = 900;
+    this.minDiagramWidth = 1000;
+
+    this.previous = null;
 
     this.initListeners();
   }
 
   loadCsv() {
-    return d3.dsv(';', this.dataSrcCsv, d3.autoType);
+    return d3.dsv(';', this.dataSrcCsvExtended, d3.autoType);
   }
 
   loadJson() {
@@ -48,10 +42,10 @@ class DataVis {
 
   redrawDiagram() {
     d3.select('.chart').selectAll('*').remove();
-    this.printDiagram();
+    this.printDiagramExtended();
   }
 
-  printDiagram() {
+  printSimpleDiagram() {
     const margin = {
       top: 10, right: 30, bottom: 250, left: 30,
     };
@@ -95,7 +89,7 @@ class DataVis {
         .call(d3.axisLeft(y));
 
 
-      // Line rural to allarea
+      // Zero / world line
       svg.append('line')
         .attr('x1', 0)
         .attr('x2', width)
@@ -169,18 +163,68 @@ class DataVis {
     });
   }
 
-  static testDiagram() {
-    // set the dimensions and margins of the graph
+  getCoordinate(x,y,d) {
+    let coordinates = {
+      x1: 0,
+      x2: 0,
+      y1: 0,
+      y2: 0,
+    }
+
+    let id = '';
+    let line = false;
+
+    // first element
+    if(this.previous == null) {
+      coordinates.x1 = 0;
+      coordinates.x2 = 0;
+      coordinates.y1 = 0;
+      coordinates.y2 = 0;
+
+      id = `noLine${d.Id}`;
+      line = false;
+      this.previous = d;
+      return coordinates;
+    }
+
+    if(this.previous.GeoAreaName === d.GeoAreaName) {
+      // same area as element before
+      console.log(`from ${this.previous.GeoAreaName}_${this.previous.Location} to ${d.GeoAreaName}_${d.Location}`);
+      line = true;
+      id = `${this.previous.GeoAreaName.trim().toLowerCase()}_${this.previous.Location}_TO_${d.GeoAreaName.trim().toLowerCase()}_${d.Location}`;
+      coordinates.x1 = x(this.previous.Id);
+      coordinates.x2 = x(d.Id);
+      coordinates.y1 = y(this.previous.latest);
+      coordinates.y2 = y(d.latest);
+    } else {
+      line = false;
+      id = `noLine${d.Id}`;
+      coordinates.x1 = 0;
+      coordinates.x2 = 0;
+      coordinates.y1 = 0;
+      coordinates.y2 = 0;
+    }
+
+    // previousTemp = previous;
+    this.previous = d;
+
+    return coordinates;
+  }
+
+  printDiagramExtended() {
     const margin = {
-      top: 10, right: 30, bottom: 30, left: 30,
+      top: 10, right: 30, bottom: 50, left: 70,
     };
-    const chartWidth = document.querySelector('.chart').offsetWidth;
-    const chartHeight = document.querySelector('.chart').offsetWidth;
+    let chartWidth = document.querySelector('.chart').offsetWidth;
+    if (chartWidth < this.minDiagramWidth) {
+      chartWidth = this.minDiagramWidth;
+    }
+    const chartHeight = chartWidth / 2.5;
 
     const width = chartWidth - margin.left - margin.right;
-    const height = chartWidth / 2 - margin.top - margin.bottom;
+    const height = chartHeight + margin.top + margin.bottom;
 
-    // append the svg object to the body of the page
+    // append the svg object to the .chart
     const svg = d3.select('.chart')
       .append('svg')
       .attr('width', width + margin.left + margin.right)
@@ -190,79 +234,89 @@ class DataVis {
         `translate(${margin.left},${margin.top})`);
 
     // Parse the Data
-    d3.csv('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_cleveland.csv', d3.autoType).then((data) => {
+    d3.dsv(';', this.dataSrcCsvExtended, d3.autoType).then((data) => {
       // Add X axis
       const x = d3.scaleBand()
-        .range([0, width])
-        .domain(data.map((d) => d.group))
-        .padding(1);
-      svg.append('g')
+        .range([0, width], .1)
+        .domain(data.map((d) => d.Id))
+        .padding(1); // , rotate(90deg)
+      /*svg.append('g')
         .attr('transform', `translate(0,${height})`)
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+        .selectAll('text')
+        .attr('transform', 'translate(-10,0)rotate(-45)')
+        .style('text-anchor', 'end');*/
+
+      const xGroup = d3.scaleOrdinal();
 
       // Y axis
       const y = d3.scaleLinear()
-        .domain([40, -50])
+        .domain([55, -55]) // min and max values of input data
         .range([0, height]);
       svg.append('g')
-        .call(d3.axisLeft(y));
+        .call(d3.axisLeft(y))
+        .selectAll('text')
+        .text((t) => {
+          if(t == 0){
+            return 'World 2017';
+          }
+          return t + '%';
+        })
+        .attr('id', (t) => `y_Indicator_${t}`)
+        .attr('font-weight', (t) => {
+          if(t == 0) {
+            return `500`;
+          }
+        });
 
-      // Lines
-      svg.selectAll('myline')
+
+      // Zero / world line
+      for (let i = -50; i <= 50; i+=5) {
+        svg.append('line')
+          .attr('x1', 0)
+          .attr('x2', width)
+          .attr('y1', y(i))
+          .attr('y2', y(i))
+          .attr('class', () => {
+            if(i == 0) {
+              return 'zeroLine';
+            } else {
+              return 'helpLine';
+            }
+          })
+          .attr('stroke-width', '1px')
+          .attr('id', `helpLine${i}`);
+      }
+
+      let id = '';
+
+      // Connection lines
+      svg.selectAll('my1line')
         .data(data) // ab hier wie ein loop
         .enter()
         .append('line')
-        .attr('y1', (d) => {
-          console.log({ val: d, y: y(d.value1) });
-          return y(d.value1);
-        })
-        .attr('x1', (d) => x(d.group))
-        .attr('x2', (d) => x(d.group))
-        .attr('y1', (d) => y(d.value1))
-        .attr('y2', (d) => y(d.value2))
-        .attr('stroke', 'grey')
-        .attr('stroke-width', '1px');
+        .attr('x1', (d) => this.getCoordinate(x,y,d).x1)
+        .attr('x2', (d) => this.getCoordinate(x,y,d).x2)
+        .attr('y1', (d) => this.getCoordinate(x,y,d).y1)
+        .attr('y2', (d) => this.getCoordinate(x,y,d).y2)
+        .attr('class', 'connectionLine')
+        .attr('id', id)
+        .attr('stroke-width', (d) => (d.Rural2 == null || d.AllArea2 == null ? this.lineWidth : this.lineWidth));
 
-      // Circles of variable 1
-      svg.selectAll('mycircle')
+      // Circles
+      svg.selectAll('myRuralCircle')
         .data(data)
         .enter()
         .append('circle')
-        .attr('cx', (d) => x(d.group))
-        .attr('cy', (d) => y(d.value1))
-        .attr('r', '6')
-        .style('fill', '#69b3a2');
-
-      // Circles of variable 2
-      svg.selectAll('mycircle')
-        .data(data)
-        .enter()
-        .append('circle')
-        .attr('cx', (d) => x(d.group))
-        .attr('cy', (d) => y(d.value2))
-        .attr('r', '6')
-        .style('fill', '#4C4082');
+        .attr('cx', (d) => x(d.Id))
+        .attr('cy', (d) => y(d.latest))
+        .attr('r', (d) => (d.latest == null ? 0 : this.circleRadius))
+        .attr('class', (d) => d.Location.toLowerCase())
+        .attr('id', (d) => `${d.GeoAreaName.trim().toLowerCase()}_${d.Location.trim().toLowerCase()}_latest`)
+        .attr('data-value', (d) => d.Rural2);
     });
   }
 }
 
 const dataVisOb = new DataVis();
-const loadedData = dataVisOb.loadCsv().then((data) => {
-  console.log(data);
-  /* console.log(d3.min(data, (d) => {
-    console.log(d.AllArea1);
-  })); */
-
-  // const chart = d3.select('.chart');
-  // .selectAll() // necessary
-  // .data(data) // bind data
-  // .enter() // create dynamic elements
-  // .append('p')
-  // .text((d, i) => d);
-});
-
-dataVisOb.printDiagram();
-
-// DataVis.testDiagram();
-
-// dataVisOb.histogram();
+dataVisOb.printDiagramExtended();

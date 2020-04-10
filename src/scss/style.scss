@@ -1,14 +1,16 @@
-@import url('https://fonts.googleapis.com/css?family=Playfair+Display:400,600,700,800,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Roboto:wght@300;400;700;900&display=swap');
 
 $connectedDevicesHeight: 130px;
 $screen-sm-max: 767.98px;
+$padding: 25px;
 
 *, *::after, *::before {
   box-sizing: border-box;
 }
 
 :root{
-  --font-serif: 'Playfair Display', serif;
+  --color-un-blue: #2cbbe1;
+  --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 html{
@@ -24,6 +26,9 @@ html{
   --color-light-grey-darken: #eee;
   --color-dark-grey: #666;
 
+  --color-grid-strong: var(--color-dark-grey);
+  --color-grid-light: var(--color-light-grey);
+
   &.deviceIdentificationTriggered, &.darkMode{
     --color-background: #161719;
     --color-text: #fff;
@@ -38,21 +43,73 @@ body{
   margin:0;
   padding:0;
   font-size: 1rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: var(--font-family);
   background: var(--color-background);
   color: var(--color-text);
   transition: all .5s ease 0s;
+
+  @media screen and (max-width: $screen-sm-max) {
+    font-size: .9rem;
+  }
 }
 
 .container{
-  max-width: 1600px;
+  max-width: 1300px;
   margin-left:auto;
   margin-right: auto;
-  padding:15px;
+  padding:0 $padding;
+}
+
+.color-un-blue{
+  color: var(--color-un-blue);
+}
+
+.intro{
+  background: var(--color-light-grey);
+  padding-top: 80px;
+  padding-bottom: 80px;
+  margin-bottom: 60px;
+
+  @media screen and (max-width: $screen-sm-max) {
+    padding-top: 50px;
+  }
+
+  p{
+    column-count: 2;
+    column-gap: 30px;
+
+    @media screen and (max-width: $screen-sm-max) {
+      column-count: 1;
+    }
+  }
+}
+
+h1{
+  font-family: 'Oswald';
+  line-height: 1;
+  font-size: 3rem;
+  font-weight: 500;
+  margin-top:0;
+  margin-bottom:50px;
+
+  @media screen and (max-width: $screen-sm-max) {
+    font-size: 2.5rem;
+    margin-bottom:35px;
+  }
+
+  small{
+    display: block;
+    font-size: 50%;
+    font-weight: 300;
+    margin-bottom: 15px;
+  }
 }
 
 p{
   margin:0;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: .1px;
 }
 
 .button{
@@ -118,6 +175,7 @@ p{
 
 .horizontal-scroll-container {
   position: relative;
+  margin: 0 (-$padding);
 
   &::before, &::after{
     content: "";
@@ -138,6 +196,10 @@ p{
     left: 0;
     background: linear-gradient(to right,var(--color-chart-background) 0,rgba(255,255,255,0) 100%);
   }
+
+  .horizontal-scroll-wrapper {
+    padding: 0 $padding;
+  }
 }
 
 .chart-wrapper{
@@ -154,6 +216,20 @@ p{
     transition: filter .5s ease;
   }
 
+  line{
+    &.zeroLine {
+      stroke: var(--color-grid-strong);
+    }
+
+    &.helpLine {
+      stroke: var(--color-grid-light);
+    }
+
+    &.connectionLine {
+      stroke: #bdbdbd;
+    }
+  }
+
   circle{
     &.rural{
       fill: var(--color-rural);
@@ -165,6 +241,14 @@ p{
 
     &.urban{
       fill: var(--color-urban);
+    }
+  }
+
+  text {
+    font-family: var(--font-family);
+
+    &#y_Indicator_0{
+      font-weight: 800;
     }
   }
 }
