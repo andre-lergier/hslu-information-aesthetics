@@ -50,7 +50,7 @@ Based on Sketch number 3 I created a detailled version
 ![Skizze 6](assets/skizze-6.png "Skizze Diagramm")
 
 ## Code in D3
-To run the project, use the following commands.\\
+To run the project, use the following commands.<br>
 The project uses webpack, which compiles all files including `scss` automatically.
 
 Initialize project and install dependencies.

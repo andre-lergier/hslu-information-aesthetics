@@ -211,21 +211,25 @@ class DataVis {
     return coordinates;
   }
 
-  printDiagramExtended() {
+  printDiagramExtended(target) {
+    /**
+     * define dimensions
+     */
     const margin = {
       top: 10, right: 30, bottom: 50, left: 70,
     };
-    let chartWidth = document.querySelector('.chart').offsetWidth;
+
+    let chartWidth = document.querySelector(target).offsetWidth;
     if (chartWidth < this.minDiagramWidth) {
       chartWidth = this.minDiagramWidth;
     }
     const chartHeight = chartWidth / 2.5;
 
     const width = chartWidth - margin.left - margin.right;
-    const height = chartHeight + margin.top + margin.bottom;
+    const height = chartHeight - margin.top - margin.bottom;
 
     // append the svg object to the .chart
-    const svg = d3.select('.chart')
+    const svg = d3.select(target)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
@@ -239,13 +243,14 @@ class DataVis {
       const x = d3.scaleBand()
         .range([0, width], .1)
         .domain(data.map((d) => d.Id))
-        .padding(1); // , rotate(90deg)
-      /*svg.append('g')
+        .padding(1);
+
+      let xAxis = svg.append('g')
         .attr('transform', `translate(0,${height})`)
         .call(d3.axisBottom(x))
         .selectAll('text')
         .attr('transform', 'translate(-10,0)rotate(-45)')
-        .style('text-anchor', 'end');*/
+        .style('text-anchor', 'end');
 
       const xGroup = d3.scaleOrdinal();
 
@@ -253,7 +258,8 @@ class DataVis {
       const y = d3.scaleLinear()
         .domain([55, -55]) // min and max values of input data
         .range([0, height]);
-      svg.append('g')
+
+      let yAxis = svg.append('g')
         .call(d3.axisLeft(y))
         .selectAll('text')
         .text((t) => {
@@ -319,4 +325,4 @@ class DataVis {
 }
 
 const dataVisOb = new DataVis();
-dataVisOb.printDiagramExtended();
+dataVisOb.printDiagramExtended('.chart');
