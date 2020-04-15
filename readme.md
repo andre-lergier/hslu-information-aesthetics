@@ -40,7 +40,7 @@ An interesting fact I found as well is the difference in development between rur
 In my next step I had to dive in the dataset again, select the interesting facts of my sketches and bring all this together.
 ![Skizze 4](assets/skizze-4.png "Skizze Diagramme")
 
-### Finding
+### Findings
 As drawn in my last sketch, I had the idea to compare the values of continents/global regions with the values from the world. In this case, the value from the world is the reference on the x-axis.
 
 Following this idea I moved on creating sketches. I tried to illustrate the "iceberg principle" with a base line, values above and values underneath it.
@@ -50,6 +50,23 @@ Based on Sketch number 3 I created a detailled version
 ![Skizze 6](assets/skizze-6.png "Skizze Diagramm")
 
 ## Code in D3
+To run the project, use the following commands.\\
+The project uses webpack, which compiles all files including `scss` automatically.
+
+Initialize project and install dependencies.
+```sh
+npm install
+```
+
+For __Development Environment__ with Dev-Server:
+```sh
+npm run dev
+```
+
+For __Production__ mode:
+```sh
+npm run build
+```
 
 ## Links
 #### Sustainable Development Goals
