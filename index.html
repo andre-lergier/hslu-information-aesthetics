@@ -1,13 +1,16 @@
 <!doctype html>
-<html class="">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infographic about UN Sustainable Goal 6.1</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Infographic UN Sustainable Goal 6.1 🚰</title>
+    <meta name="description" content="Interactive infographic about universal access to safe and affordable drinking water related to the world average values.">
+    <meta name="author" content="André Lergier | www.lergier.ch">
   </head>
   <body>
     <main id="content">
-      <section class="intro">
+      <section class="intro gray-bg">
         <div class="container">
           <h1>
             <small>UN Sustainable Goal 6.1 🚰</small>
@@ -29,16 +32,47 @@ has been made in increasing access to clean drinking water and
 sanitation, billions of people—mostly in rural areas—still lack these
 basic services.
           </p>
+          <a class="button" href="https://sustainabledevelopment.un.org/sdg6" target="_blank" title="More informations about Sustainable Development Goal 6">More Informations</a>
         </div>
       </section>
-      <section class="container">
-        <div class="horizontal-scroll-container">
-          <div class="chart-wrapper horizontal-scroll-wrapper">
-            <section class="chart"></section>
+      <section class="infographic">
+        <section class="container">
+          <h2>Infographic</h2>
+          <p>
+            The information from the data source contains a <b>percentage value</b> of how many people have access to safe and affordable drinking water in different countires, regions and continents. These values are available for the three locations <span class="color-allarea font-weight-600">Allarea</span>, <span class="color-rural font-weight-600">Rural</span> and <span class="color-urban font-weight-600">Urban</span>, while for few geo areas there are only one or two of those.<br><br>
+            In the following inforgraphic the base 0 line shows the world as a reference.<br>
+          </p>
+          <section class="chart" id="worldChart"></section>
+          <p>
+            The following diagram shows the difference between geographical areas and the world index.
+            If a continent or a big region has better values 
+            The following inforgraphic shows the difference between continents or regions to the </p>
+        </section>
+        <section class="container-wide">
+          <div class="horizontal-scroll-container">
+            <div class="chart-wrapper horizontal-scroll-wrapper">
+              <section class="chart" id="differenceChart"></section>
+            </div>
           </div>
-        </div>
+          <div class="controls">
+            <button class="controlButton" data-column="initial">2000</button>
+            <button class="controlButton" data-column="latest">2017</button>
+          </div>
+        </section>
       </section>
     </main>
+
+    <footer class="gray-bg">
+      <section class="container">
+        <ul class="impressum">
+          <li><b>Concept, Design:</b> <a href="lergier.ch/?ref=hslu-infae" targe="_blank">André Lergier | lergier.ch</a></li>
+          <li><b>Process, Github:</b> <a href="https://github.com/andre-lergier/hslu-information-aesthetics" target="_blank">andre-lergier/hslu-information-aesthetics</a></li>
+          <li><b>Data Source:</b> <a href="https://unstats.un.org/sdgs/indicators/database" target="_blank"></a>UN Sustainable Development Goals</a></li>
+          <li><b>Studies, Module:</b> HSLU Digital Ideation, Information hslu-information-aesthetics</li>
+          <li><b>Coaches:</b> Nicole Lachenmeier, Darjan Hil, <a href="https://yaay.ch" target="blank">YAAY.ch</a></li>
+        </ul>
+      </section>
+    </footer>
 
     <!-- scripts will be imported here -->
   </body>
