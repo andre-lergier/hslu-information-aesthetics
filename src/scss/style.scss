@@ -291,6 +291,10 @@ a {
   font-size: .9rem;
   transition: all ease .5s;
 
+  @media screen and (max-width: $screen-sm-max) {
+    margin-right: 8px;
+  }
+
   &:hover, &:focus{
     background: var(--color-dark-grey);
     color:white;
