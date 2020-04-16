@@ -8,12 +8,17 @@ export default class MainGraph {
     this.containerId = containerId;
     this.container = document.querySelector(this.containerId);
 
-    this.circleRadius = 5;
-    this.lineWidth = '1px';
+    this.circleRadius = 6;
+    this.lineWidth = '1.2';
     this.minDiagramWidth = 1000;
     this.minDiagramHeight = 425;
 
     this.previous = null;
+
+    // labels
+    this.previousLabel = null;
+    this.previousPreviousLabel = null;
+    this.previousPreviousPreviousLabel = null;
 
     this.svg = null;
     this.x = null;
@@ -23,7 +28,7 @@ export default class MainGraph {
     this.width = null;
     this.height = null;
 
-    this.initialValue = 'latest';
+    this.currentShownData = 'latest';
 
     this.initListeners();
   }
@@ -43,6 +48,15 @@ export default class MainGraph {
     for (let button of controlButtons) {
       button.addEventListener('click', this.controlButtonClicked.bind(this));
     }
+
+    const labelsCheckbox = document.querySelector('#toggleLabels');
+    labelsCheckbox.addEventListener('change', (e) => {
+      if(e.currentTarget.checked) {
+        this.container.classList.remove('hideLabels');
+      } else {
+        this.container.classList.add('hideLabels');
+      }
+  });
   }
 
   resizeWindow() {
@@ -63,8 +77,49 @@ export default class MainGraph {
       btn.classList.remove('active');
     }
     button.classList.add('active');
+    
     const dataRow = button.getAttribute('data-column');
     this.updateDiagram(dataRow);
+    this.currentShownData = dataRow;
+  }
+
+
+  initTooltip() {
+    this.tooltip = d3.select(this.containerId)
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+  }
+
+  mousemove(d) {
+    console.log(d);
+    this.tooltip
+      .html("The exact value of<br>the Ground Living area is: " + d.GeoAreaName)
+      .html(() => {
+        let html = `
+        <p class="geoArea">${d.GeoAreaName}</p>
+        <p class="color-${d.Location.toLowerCase()} location">${d.Location}</p>
+        <p class="value">${Math.round((d[this.currentShownData] + Number.EPSILON) * 100) / 100} %</p>`;
+
+        if(d.Kommentar && this.currentShownData == 'initial') {
+          html += ` <p class="kommentar">Data from ${d.Kommentar}</p>`;
+        }
+        return html;
+        })
+      .style("left", (d3.mouse(this.container)[0]+60) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+      .style("top", (d3.mouse(this.container)[1]-20) + "px");
+  }
+
+  mouseover(d) {
+    this.tooltip
+      .style("opacity", 1);
+  }
+
+  mouseleave(d) {
+    this.tooltip
+      .transition()
+      .duration(200)
+      .style("opacity", 0)
   }
 
   printSimpleDiagram() {
@@ -233,6 +288,107 @@ export default class MainGraph {
     return coordinates;
   }
 
+  getLabelPosition(d, requested) {
+    let coordinates = {
+      x: 0,
+      y: 0,
+      label:0,
+      data: 0,
+    }
+
+    // first element
+    if(this.previousLabel == null && this.previousPreviousLabel == null) {
+      coordinates.label = 0;
+      coordinates.data = 0;
+      coordinates.x = 0;
+      coordinates.y = 0;
+
+      this.previousLabel = d;
+
+      return coordinates;
+    }
+
+    // second element
+    if(this.previousPreviousLabel == null) {
+      if(!this.previousLabel.GeoAreaName === d.GeoAreaName) {
+        // new area!
+        coordinates.label = 1;
+        coordinates.data = this.previousLabel;
+        coordinates.x = this.x(this.previousLabel.Id);
+        coordinates.y = this.y(this.previousLabel[requested]);
+      } else {
+        coordinates.label = 0;
+        coordinates.data = 0;
+        coordinates.x = 0;
+        coordinates.y = 0;
+      }
+
+      this.previousPreviousLabel = this.previousLabel;
+      this.previousLabel = d;
+
+      return coordinates;
+    }
+
+    // later than second element
+    if(this.previousLabel.GeoAreaName === d.GeoAreaName) {
+      // same element as before - no return
+
+      coordinates.label = 0;
+      coordinates.data = 0;
+      coordinates.x = 0;
+      coordinates.y = 0;
+
+      this.previousPreviousPreviousLabel = this.previousPreviousLabel;
+      this.previousPreviousLabel = this.previousLabel;
+      this.previousLabel = d;
+
+      return coordinates;
+    } else {
+      // previous is other than current!
+
+      if(this.previousPreviousPreviousLabel.GeoAreaName === this.previousLabel.GeoAreaName) {
+        // 3-group behind!
+        // return middle
+        coordinates.label = 1;
+        coordinates.data = this.previousPreviousLabel;
+        coordinates.x = this.x(this.previousPreviousLabel.Id);
+        coordinates.y = this.y(this.previousPreviousLabel[requested]);
+
+        this.previousPreviousPreviousLabel = this.previousPreviousLabel;
+        this.previousPreviousLabel = this.previousLabel;
+        this.previousLabel = d;
+
+        return coordinates;
+      } 
+
+      if(this.previousPreviousLabel.GeoAreaName === this.previousLabel.GeoAreaName) {
+        // two in row
+        coordinates.label = 1;
+        coordinates.data = this.previousLabel;
+        coordinates.x = this.x(this.previousLabel.Id);
+        coordinates.y = this.y(this.previousLabel[requested]);
+
+        this.previousPreviousPreviousLabel = this.previousPreviousLabel;
+        this.previousPreviousLabel = this.previousLabel;
+        this.previousLabel = d;
+
+        return coordinates;
+      } else {
+        //  one was alone
+        coordinates.label = 1;
+        coordinates.data = this.previousLabel;
+        coordinates.x = this.x(this.previousLabel.Id);
+        coordinates.y = this.y(this.previousLabel[requested]);
+
+        this.previousPreviousPreviousLabel = this.previousPreviousLabel;
+        this.previousPreviousLabel = this.previousLabel;
+        this.previousLabel = d;
+
+        return coordinates;
+      }
+    }
+  }
+
   updateDiagram(requestedData){
     // Parse the Data
     d3.dsv(';', this.dataSrcCsvExtended, d3.autoType).then((data) => {
@@ -254,6 +410,7 @@ export default class MainGraph {
       // Connection lines
       let j = this.svg.selectAll('.connectionLine')
         .data(data); // ab hier wie ein loop
+        // possible filter: data.filter(function(d){return d.Id != 10 && d.Id != 11;})
       j
         .enter()
         .append('line')
@@ -266,7 +423,33 @@ export default class MainGraph {
           .attr('y1', (d) => this.getCoordinates(d, requestedData).y1)
           .attr('y2', (d) => this.getCoordinates(d, requestedData).y2)
           // .attr('id', id)
-          .attr('stroke-width', (d) => (d.Rural2 == null || d.AllArea2 == null ? this.lineWidth : this.lineWidth));
+          .attr('stroke-width', (d) => (d.Rural2 == null || d.AllArea2 == null ? this.lineWidth : this.lineWidth))
+        
+      let b = this.svg.selectAll('.ingraphLabel')
+        .data(data);
+
+      b.enter()
+        .append('g')
+        .append('text')
+        .attr('class', 'ingraphLabel')
+        .text((d) => {
+          let coordinates = this.getLabelPosition(d, requestedData);
+
+          if(coordinates.label != 1) {
+            return '';
+          } else {
+            return coordinates.data.GeoAreaName;
+          }
+        })
+        .merge(b)
+        .transition()
+        .duration(1000)
+          .attr("transform", (d) => {
+            const coordinates = this.getLabelPosition(d, requestedData);
+            return `translate(${coordinates.x},${coordinates.y})`;
+          })
+          .attr("x", 12)
+          .attr("y", 4)
 
       // Circles
       let u = this.svg.selectAll('circle')
@@ -277,6 +460,9 @@ export default class MainGraph {
         .append('circle')
         .attr('class', (d) => d.Location.toLowerCase())
         .attr('id', (d) => `${d.GeoAreaName.trim().toLowerCase()}_${d.Location.trim().toLowerCase()}_latest`)
+        .on('mouseover', this.mouseover.bind(this))
+        .on('mousemove', this.mousemove.bind(this))
+        .on('mouseleave', this.mouseleave.bind(this))
         .merge(u)
         .transition()
         .duration(1000)
@@ -296,7 +482,7 @@ export default class MainGraph {
     };
 
     let chartWidth = this.container.offsetWidth;
-    let chartHeight = 480;
+    let chartHeight = 550;
     if (chartWidth < this.minDiagramWidth) {
       chartWidth = this.minDiagramWidth;
       chartHeight = this.minDiagramHeight;
@@ -368,6 +554,7 @@ export default class MainGraph {
         .attr('id', `helpLine${i}`);
     }
 
-    this.updateDiagram(this.initialValue);
+    this.initTooltip();
+    this.updateDiagram(this.currentShownData);
   }
 }

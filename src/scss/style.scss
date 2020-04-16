@@ -105,7 +105,7 @@ body{
  * Typography 
  */
  h1{
-  font-family: 'Oswald';
+  font-family: var(--font-secondary);
   line-height: 1;
   font-size: 3rem;
   font-weight: 500;
@@ -121,7 +121,9 @@ body{
     display: block;
     font-size: 50%;
     font-weight: 300;
+    letter-spacing: -.4px;;
     margin-bottom: 15px;
+    font-family: var(--font-family);
   }
 }
 
@@ -154,6 +156,76 @@ a {
   &:hover{
     color: var(--color-un-blue);
   }
+}
+
+.checkbox{
+  display: inline-block;
+  margin-left:-8px;
+
+  input[type="checkbox"] {
+    opacity: 0;
+  }
+
+  label {
+    position: relative;
+    display: inline-block;
+    font-size: .85rem;
+    padding-left:25px;
+  }
+}
+
+.checkbox label::before,
+.checkbox label::after {
+  position: absolute;
+  content: "";
+  display: inline-block;
+}
+
+/*Outer box of the fake checkbox*/
+.checkbox label::before{
+  height: 16px;
+  width: 16px;
+  
+  border: 1px solid var(--color-dark-grey);
+  background: var(--color-light-grey);
+  border-radius: 5px;
+  left: 0px;
+
+  top: 1px;
+}
+
+/*Checkmark of the fake checkbox*/
+.checkbox label::after {
+  height: 5px;
+  width: 9px;
+  border-left: 2px solid;
+  border-bottom: 2px solid;
+  border-color: var(--color-darker-grey);
+  
+  transform: rotate(-45deg);
+  
+  transition: all .3s ease;
+
+  left: 4px;
+  top: 5px;
+}
+
+/*Hide the checkmark by default*/
+.checkbox input[type="checkbox"] + label::after {
+  content: '';
+  opacity: 0;
+}
+
+/*Unhide on the checked state*/
+.checkbox input[type="checkbox"]:checked + label::after {
+  content: "";
+  opacity: 1;
+}
+
+/*Adding focus styles on the outer-box of the fake checkbox*/
+.checkbox input[type="checkbox"]:focus + label::before {
+  outline: rgb(59, 153, 252) auto 5px;
+  outline: none;
 }
 
 .color-un-blue{
@@ -319,6 +391,11 @@ a {
   circle{
     stroke-width: 2;
     transition: fill .3s ease;
+    cursor: pointer;
+
+    @media screen and (max-width: 1000px) {
+      r: 4.5;
+    }
 
     &.rural{
       fill:white;
@@ -381,6 +458,26 @@ a {
     font-size:.85rem;
   }
 
+  .ingraphLabel{
+    font-size: .65rem;
+    fill: var(--color-text);
+    opacity: .6;
+    transition: opacity .3s ease;
+    z-index: 0;
+    user-select: none;
+
+    &:hover{
+      opacity: 1;
+    }
+  }
+
+  &.hideLabels{
+    .ingraphLabel{
+      opacity: 0;
+    }
+  }
+
+  // world graph
   .dotGroup{
     circle{
       fill:white;
@@ -455,5 +552,43 @@ a {
 #differenceChart {
   .xAxis {
     display: none;
+  }
+}
+
+.tooltip{
+  background-color: white;
+  box-shadow: 0px 5px 30px 0px rgba(0,0,0,0.08);
+  padding: 8px 16px;
+  border-radius: 8px;
+  position: absolute;
+  top:50%;
+  left:50%;
+  z-index:100;
+  line-height: 1;
+  border: 1px solid #f4f4f4;
+
+  p{
+    line-height: 1.4;
+  }
+
+  .geoArea{
+    font-weight: 500;
+    font-size: .825rem;
+  }
+
+  .location{
+    font-size: .75rem;
+    font-weight: 500;
+  }
+
+  .value, .kommentar{
+    border-top: 1px solid #ccc;
+    margin-top: 8px;
+    padding-top: 5px;
+    font-size: .75rem;
+  }
+
+  .kommentar{
+    font-style: italic;
   }
 }

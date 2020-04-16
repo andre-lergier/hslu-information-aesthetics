@@ -8,10 +8,10 @@
 7;Central Asia;ALLAREA;-6.70355;0.33223;
 8;Central Asia;RURAL;-9.32227;-0.10043;
 9;Central Asia;URBAN;-2.54186;5.26043;
-10;Developed regions (Europe, Cyprus, Israel, Northern America, Japan, Australia & New Zealand);ALLAREA;30.39848;25.04449;
-11;Developed regions (Europe, Cyprus, Israel, Northern America, Japan, Australia & New Zealand);URBAN;10.56581;11.89421;
-12;Eastern Africa;ALLAREA;-51.49337;-49.53752;'2002'
-13;Eastern Africa;RURAL;-37.62182;-44.096;'2002'
+10;Developed regions;ALLAREA;30.39848;25.04449;
+11;Developed regions;URBAN;10.56581;11.89421;
+12;Eastern Africa;ALLAREA;-51.49337;-49.53752;2002
+13;Eastern Africa;RURAL;-37.62182;-44.096;2002
 14;Eastern Africa;URBAN;-48.47952;-31.9557;
 15;Eastern Asia;URBAN;7.752;8.18699;
 16;Eastern Europe;ALLAREA;14.31558;14.30874;
@@ -19,14 +19,14 @@
 18;Landlocked developing countries (LLDCs);ALLAREA;-35.50526;-35.78537;
 19;Landlocked developing countries (LLDCs);RURAL;-27.65602;-33.21962;
 20;Landlocked developing countries (LLDCs);URBAN;-22.58424;-15.84727;
-21;Latin America and the Caribbean;ALLAREA;-5.02566;3.6713;'2009'
+21;Latin America and the Caribbean;ALLAREA;-5.02566;3.6713;2009
 22;Latin America and the Caribbean;RURAL;-6.17276;-11.3784;
 23;Latin America and the Caribbean;URBAN;-3.80224;-2.88522;
 24;Least Developed Countries (LDCs);ALLAREA;-36.19095;-35.89506;
 25;Least Developed Countries (LDCs);RURAL;-21.03297;-26.8773;
 26;Least Developed Countries (LDCs);URBAN;-41.15312;-32.97859;
 27;Northern America;ALLAREA;34.68548;28.38854;
-28;Northern America;URBAN;13.43456;14.49781;'2005'
+28;Northern America;URBAN;13.43456;14.49781;2005
 29;Northern Europe;ALLAREA;36.36206;28.67554;
 30;Oceania;URBAN;5.37676;10.98269;
 31;South America;ALLAREA;14.35268;9.04276;
