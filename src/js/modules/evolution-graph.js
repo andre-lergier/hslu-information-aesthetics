@@ -1,15 +1,15 @@
 import * as d3 from 'd3';
 
-export default class WorldGraph {
+export default class EvolutionGraph {
   constructor(containerId) {
-    this.dataSrcCsv = 'static/data/sustainable-development-goal-6-1.world.020.csv';
+    this.dataSrcCsv = 'static/data/sustainable-development-goal-6-1.evolution.csv';
 
     this.containerId = containerId;
     this.container = document.querySelector(this.containerId);
 
     this.circleRadius = 4;
     this.lineWidth = '1.5';
-    this.minDiagramWidth = 500;
+    this.minDiagramWidth = 1000;
 
     this.svg = null;
     this.x = null;
@@ -40,19 +40,47 @@ export default class WorldGraph {
   }
 
   reformatData(data) {
-    const locations = ["Allarea", "Rural", "Urban"]
-    const reorderedData = locations.map((location) => {
-      // location = one value of locations
-
+    const locationLines = [
+      {
+        geoArea: 'World',
+        location: 'Allarea',
+      },
+      {
+        geoArea: 'World',
+        location: 'Rural',
+      },
+      {
+        geoArea: 'World',
+        location: 'Urban',
+      },
+      {
+        geoArea: 'Uganda',
+        location: 'Allarea',
+      },
+      {
+        geoArea: 'Uganda',
+        location: 'Rural',
+      },
+      {
+        geoArea: 'Uganda',
+        location: 'Urban',
+      },
+      {
+        geoArea: 'Singapore',
+        location: 'Allarea',
+      },
+    ]
+    const reorderedData = locationLines.map((locationObj) => {
       // filter data array to remove other locations
       let filteredArray = data.filter((currentValue) => {
-        if(currentValue.Location === location.toUpperCase()) {
+        if(currentValue.Location === locationObj.location.toUpperCase() && currentValue.GeoArea.toUpperCase() === locationObj.geoArea.toUpperCase()) {
           return currentValue;
         }
       })
 
       return {
-        name: location,
+        location: locationObj.location,
+        geoArea: locationObj.geoArea,
         values: filteredArray.map((d) => {
           return {
             year: d.Year,
@@ -67,16 +95,10 @@ export default class WorldGraph {
 
   printDiagram() {
     const margin = {
-      top: 10, right: 70, bottom: 30, left: 30,
+      top: 10, right: 30, bottom: 30, left: 30,
     };
-
-    let chartWidth = this.container.offsetWidth;
-    let chartHeight = 300;
-
-    if (chartWidth < this.minDiagramWidth) {
-      chartWidth = this.minDiagramWidth;
-      chartHeight = 250;
-    } 
+    const chartWidth = this.container.offsetWidth;
+    const chartHeight = chartWidth / 3.3;
 
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight - margin.top - margin.bottom;
@@ -96,6 +118,7 @@ export default class WorldGraph {
        * Reformat the data
        */
       this.reformatData(data);
+      console.log(this.reorderedData);
 
       /**
        * Axis
@@ -115,14 +138,11 @@ export default class WorldGraph {
       // Y axis
       const y = d3.scaleLinear()
         //.domain([d3.min(data, (d) => +d.Value), d3.max(data, (d) => +d.Value) ])
-        .domain([90, 35])
+        // .domain([90, 35])
+        .domain([100, 0])
         .range([0, height]);
-
       svg.append('g')
-        .call(d3.axisLeft(y)) 
-        .selectAll('text')
-        .text((t) => `${t} %`)
-        .attr('id', (t) => `y_Indicator_${t}`);
+        .call(d3.axisLeft(y));
 
 
       /**
@@ -142,7 +162,7 @@ export default class WorldGraph {
         .enter()
         .append('path')
         .attr('d', (d) => line(d.values))
-        .attr('class', (d) => d.name.toLowerCase())
+        .attr('class', (d) => `evolutionPath ${d.location.toLowerCase()} ${d.geoArea.toLowerCase()}`)
         .style('stroke-width', this.lineWidth)
         .style('fill', 'none')
         
@@ -155,34 +175,28 @@ export default class WorldGraph {
         .data(this.reorderedData)
         .enter()
           .append('g') // create group
-          .attr('class', (d) => `${d.name.toLowerCase()} dotGroup`)
+          .attr('class', (d) => `dotGroup ${d.location.toLowerCase()} ${d.geoArea.toLowerCase()}`)
         // Second we need to enter in the 'values' part of this group
-        .selectAll('myPoints')
+        .selectAll("myPoints")
         .data((d) => d.values)
         .enter()
         .append('circle')
           .attr('cx', (d) => x(d.year))
           .attr('cy', (d) => y(d.value))
           .attr('r', this.circleRadius)
+          .attr('class', (d) => `${d.name.toLowerCase()}Dot`)
 
-      /**
-       * Add names
-       */
-      svg.selectAll('myLabels')
-        .data(this.reorderedData)
+      // Circles of urban
+      svg.selectAll('myUrbanCircle')
+        .data(data)
         .enter()
-          .append('g')
-          .append('text')
-            .datum((d) => {
-              return {name: d.name, value: d.values[d.values.length - 1]};
-            }) // keep only the last value of each time series
-            .attr("transform", (d) => {
-              // console.log(d);
-              return `translate(${x(d.value.year)},${y(d.value.value)})`; }) // Put the text at the position of the last point
-            .attr("x", 20)
-            .attr("y", 5)
-            .attr('class', (d) => `${d.name}Label lineLabel fill-${d.name.toLowerCase()}`)
-            .text((d) => d.name)
+        .append('circle')
+        .attr('cx', (d) => x(d.GeoAreaName))
+        .attr('cy', (d) => y(d.Urban2))
+        .attr('r', (d) => (d.Urban2 == null ? 0 : this.circleRadius))
+        .attr('class', 'urban')
+        .attr('id', (d) => `${d.GeoAreaName}Urban2`)
+        .attr('data-value', (d) => d.Urban2);
     });
   }
 }

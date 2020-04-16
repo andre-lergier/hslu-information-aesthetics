@@ -18,45 +18,58 @@
           </h1>
           <p class="description">
             Fresh water is a precious resource that is essential to human health,
-food and energy security, poverty eradication and many other aspects
-of sustainable development. Water-related ecosystems have always
-provided natural sites for human settlements, along with a wealth of
-ecosystem services. Yet, like other natural resources, water is under
-threat. The demand for water has outpaced population growth, and
-half the world’s population is already experiencing severe water
-scarcity at least one month a year. Most rivers in Africa, Asia and
-Latin America are more polluted now than they were in the 1990s.
-An estimated 50 to 70 per cent of the world’s natural wetland area
-has been lost over the last 100 years. While substantial progress
-has been made in increasing access to clean drinking water and
-sanitation, billions of people—mostly in rural areas—still lack these
-basic services.
+            food and energy security, poverty eradication and many other aspects
+            of sustainable development. Water-related ecosystems have always
+            provided natural sites for human settlements, along with a wealth of
+            ecosystem services. Yet, like other natural resources, water is under
+            threat. The demand for water has outpaced population growth, and
+            half the world’s population is already experiencing severe water
+            scarcity at least one month a year. Most rivers in Africa, Asia and
+            Latin America are more polluted now than they were in the 1990s.
+            An estimated 50 to 70 per cent of the world’s natural wetland area
+            has been lost over the last 100 years. While substantial progress
+            has been made in increasing access to clean drinking water and
+            sanitation, billions of people—mostly in rural areas—still lack these
+            basic services.
           </p>
-          <a class="button" href="https://sustainabledevelopment.un.org/sdg6" target="_blank" title="More informations about Sustainable Development Goal 6">More Informations</a>
+          <!-- <a class="button" href="https://sustainabledevelopment.un.org/sdg6" target="_blank" title="More informations about Sustainable Development Goal 6">More Informations</a> -->
         </div>
       </section>
       <section class="infographic">
         <section class="container">
           <h2>Infographic</h2>
+          <div class="row">
+            <div class="col-50">
+              <p>
+                The information from the data source contain a percentage value of how many people have access to safe and affordable drinking water in different countires, regions and continents. These values are available for the three locations <span class="color-allarea font-weight-600">Allarea 🏘</span>, <span class="color-rural font-weight-600">Rural 🏔</span> and <span class="color-urban font-weight-600">Urban 🏙</span>, while for few geo areas there are only one or two of those.<br><br>
+                The following diagram shows the <b>worldwide</b> development between 2000 and 2017.
+              </p>
+            </div>
+            <div class="col-50">
+              <div class="small-indent">
+                <div class="horizontal-scroll-container">
+                  <div class="chart-wrapper horizontal-scroll-wrapper">
+                    <section class="chart" id="worldChart"></section>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <p>
-            The information from the data source contains a <b>percentage value</b> of how many people have access to safe and affordable drinking water in different countires, regions and continents. These values are available for the three locations <span class="color-allarea font-weight-600">Allarea</span>, <span class="color-rural font-weight-600">Rural</span> and <span class="color-urban font-weight-600">Urban</span>, while for few geo areas there are only one or two of those.<br><br>
-            In the following inforgraphic the base 0 line shows the world as a reference.<br>
-          </p>
-          <section class="chart" id="worldChart"></section>
-          <p>
-            The following diagram shows the difference between geographical areas and the world index.
-            If a continent or a big region has better values 
-            The following inforgraphic shows the difference between continents or regions to the </p>
+            The differences between countries, regions and continents are huge. Even inside those geographical areas there are huge differences.<br>
+            To get an overview over the worldwide situation, the following diagram is reduced to <b>continents</b> or continental areas.
+            
+            The zero-line visualizes the world index of the selected year. In continents above the base line people have better access to drinking water than the average of the world. Continents below the line do have worse conditions than the world average.
         </section>
-        <section class="container-wide">
+        <section class="container-wide differenceChartWrapper">
           <div class="horizontal-scroll-container">
             <div class="chart-wrapper horizontal-scroll-wrapper">
               <section class="chart" id="differenceChart"></section>
             </div>
           </div>
           <div class="controls">
-            <button class="controlButton" data-column="initial">2000</button>
-            <button class="controlButton" data-column="latest">2017</button>
+            <button class="controlButton button" data-column="initial">2000</button>
+            <button class="controlButton button active" data-column="latest">2017</button>
           </div>
         </section>
       </section>

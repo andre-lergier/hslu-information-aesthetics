@@ -13,6 +13,7 @@ $padding-sm: 25px;
   --color-un-blue: #2cbbe1;
   --color-blue-darken: #3f7fa7;
   --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  --font-secondary: 'Oswald', var(--font-family);
 }
 
 html{
@@ -78,43 +79,32 @@ body{
   }
 }
 
-.color-un-blue{
-  color: var(--color-un-blue);
-}
-
-.color-allarea{
-  color: var(--color-allarea);
-}
-
-.color-rural{
-  color: var(--color-rural);
-}
-
-.color-urban{
-  color: var(--color-urban);
-}
-
-.font-weight-600{
-  font-weight:600;
-}
-
-.gray-bg{
-  background: var(--color-light-grey);
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
-.intro{
-  padding-top: 90px;
-  padding-bottom: 60px;
-  margin-bottom: 60px;
+.small-indent{
+  margin-left:auto;
+  margin-right:auto;
+  width: 70%;
 
   @media screen and (max-width: $screen-sm-max) {
-    padding-top: 50px;
+    width: 100%;
   }
 }
 
-h1{
+.row{
+  display:flex;
+  flex-wrap: wrap;
+
+  .col-50{
+    width:100%;
+    flex-shrink: 0;
+    flex-grow: 0;
+  }
+}
+
+
+/** 
+ * Typography 
+ */
+ h1{
   font-family: 'Oswald';
   line-height: 1;
   font-size: 3rem;
@@ -141,6 +131,10 @@ h2{
   color:white;
   padding: 5px 10px;
   display: inline-block;
+
+  background: none;
+  padding:0;
+  color:var(--color-text);
 }
 
 p{
@@ -162,15 +156,55 @@ a {
   }
 }
 
+.color-un-blue{
+  color: var(--color-un-blue);
+}
+
+.color-allarea{
+  color: var(--color-allarea)!important;
+}
+
+.color-rural{
+  color: var(--color-rural)!important;
+}
+
+.color-urban{
+  color: var(--color-urban)!important;
+}
+
+.fill-allarea{
+  fill: var(--color-allarea)!important;
+}
+
+.fill-rural{
+  fill: var(--color-rural)!important;
+}
+
+.fill-urban{
+  fill: var(--color-urban)!important;
+}
+
+.font-weight-600{
+  font-weight:600;
+}
+
+/**
+ * Specific Styles
+ */
+.gray-bg{
+  background: var(--color-light-grey);
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
 .button{
-  $button-padding-t-b: 10px;
+  $button-padding-t-b: 7px;
 
   -webkit-appearance: none;
   user-select: none;
   display:inline-block;
   text-decoration: none;
-  margin: 25px 0;
-  background: var(--color-5);
+  margin-right: 15px;
   color: var(--color-dark-grey);
   font-size:1rem;
   border-radius:50px;
@@ -178,51 +212,33 @@ a {
   cursor: pointer;
   padding: $button-padding-t-b 20px;
   line-height: 1rem;
-  border: none;
   border: 1px solid var(--color-dark-grey);
   background: var(--color-light-grey);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  font-weight: 500;
+  font-family: var(--font-family);
+  font-weight: 600;
   font-size: .9rem;
   transition: all ease .5s;
 
   &:hover, &:focus{
+    background: var(--color-dark-grey);
+    color:white;
+    border-color: var(--color-dark-grey);
+  }
+
+  &.active{
     border-color: var(--color-dark-grey);
     background: var(--color-darker-grey);
     color: var(--color-light-grey);
   }
+}
 
-  &.button-circle{
-    height: calc(1rem + #{$button-padding-t-b} * 2 + 2px);
-    width: calc(1rem + #{$button-padding-t-b} * 2 + 2px);
-    padding: 0;
-    font-size: 1.4rem;
-    line-height: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.intro{
+  padding-top: 90px;
+  padding-bottom: 60px;
+  margin-bottom: 60px;
 
-  &.button-icon{
-    img, svg{
-      display: block;
-      height: 45%;
-
-      path{
-        fill: var(--color-dark-grey);
-      }
-    }
-
-    &:hover, &:focus{
-      img, svg{
-        display: block;
-        height: 45%;
-  
-        path{
-          fill: var(--color-5);
-        }
-      }
-    }
+  @media screen and (max-width: $screen-sm-max) {
+    padding-top: 50px;
   }
 }
 
@@ -286,11 +302,6 @@ a {
   display: block;
   width:100%;
 
-  &.resize{
-    filter: blur(10px);
-    transition: filter .5s ease;
-  }
-
   line{
     &.zeroLine {
       stroke: var(--color-grid-strong);
@@ -306,16 +317,55 @@ a {
   }
 
   circle{
+    stroke-width: 2;
+    transition: fill .3s ease;
+
     &.rural{
-      fill: var(--color-rural);
+      fill:white;
+      stroke: var(--color-rural);
+      
+      &:hover{
+        fill: var(--color-rural);
+      }
     }
 
     &.allarea{
-      fill: var(--color-allarea);
+      fill:white;
+      stroke: var(--color-allarea);
+
+      &:hover{
+        fill: var(--color-allarea);
+      }
     }
 
     &.urban{
-      fill: var(--color-urban);
+      fill:white;
+      stroke: var(--color-urban);
+
+      &:hover{
+        fill: var(--color-urban);
+      }
+    }
+  }
+
+  path{
+    &.rural{
+      stroke: var(--color-rural);
+    }
+
+    &.allarea{
+      stroke: var(--color-allarea);
+    }
+
+    &.urban{
+      stroke: var(--color-urban);
+    }
+
+    &.evolutionPath {
+      &.singapore, &.uganda {
+        stroke: 1;
+        stroke: var(--color-light-grey-darken);
+      }
     }
   }
 
@@ -325,5 +375,85 @@ a {
     &#y_Indicator_0{
       font-weight: 800;
     }
+  }
+
+  .lineLabel{
+    font-size:.85rem;
+  }
+
+  .dotGroup{
+    circle{
+      fill:white;
+      stroke-width: 2;
+    }
+
+    &.rural{
+      circle{
+        stroke: var(--color-rural);
+      }
+    }
+
+    &.allarea{
+      circle{
+        stroke: var(--color-allarea);
+      }
+    }
+
+    &.urban{
+      circle{
+        stroke: var(--color-urban);
+      }
+    }
+
+    &.world{
+      r: 5;
+    }
+    
+    &.singapore, &.uganda{
+      circle{
+        stroke-width:0;
+        r: 3;
+      }
+
+      &.rural{
+        circle{
+          fill: var(--color-rural);
+        }
+      }
+  
+      &.allarea{
+        circle{
+          fill: var(--color-allarea);
+        }
+      }
+  
+      &.urban{
+        circle{
+          fill: var(--color-urban);
+        }
+      }
+    }
+  }
+}
+
+#worldChart {
+  margin:100px auto;
+}
+
+.controls{
+  padding-left: 70px;
+
+  @media screen and (max-width: $screen-sm-max) {
+    padding-left: 0px;
+  }
+}
+
+.differenceChartWrapper {
+  margin:80px auto 100px;
+}
+
+#differenceChart {
+  .xAxis {
+    display: none;
   }
 }

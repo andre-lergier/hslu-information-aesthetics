@@ -84,6 +84,7 @@ npm run build
 - Lollipop-Diagram: https://www.d3-graph-gallery.com/graph/lollipop_cleveland.html
   - Basic Lollipop: https://www.d3-graph-gallery.com/graph/lollipop_basic.html
   - Overview: https://www.d3-graph-gallery.com/lollipop.html
+- Multiple Line Diagram: https://www.d3-graph-gallery.com/graph/connectedscatter_multi.html
 - Load Data: https://blog.bitsrc.io/how-to-create-charts-from-external-data-sources-with-d3-js-4abbcb574706
 
 #### Diverses

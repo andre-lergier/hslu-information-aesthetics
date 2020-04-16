@@ -1,14 +1,17 @@
 import * as d3 from 'd3';
 
 export default class MainGraph {
-  constructor() {
+  constructor(containerId) {
     this.dataSrcCsv = 'static/data/sustainable-development-goal-6-1.csv';
     this.dataSrcCsvExtended = 'static/data/sustainable-development-goal-6-1.020.csv';
-    this.isResizing = false;
 
-    this.circleRadius = 6;
+    this.containerId = containerId;
+    this.container = document.querySelector(this.containerId);
+
+    this.circleRadius = 5;
     this.lineWidth = '1px';
     this.minDiagramWidth = 1000;
+    this.minDiagramHeight = 425;
 
     this.previous = null;
 
@@ -19,6 +22,8 @@ export default class MainGraph {
     this.yAxis = null;
     this.width = null;
     this.height = null;
+
+    this.initialValue = 'latest';
 
     this.initListeners();
   }
@@ -41,18 +46,23 @@ export default class MainGraph {
   }
 
   resizeWindow() {
-    if (document.querySelector('.chart').offsetWidth > this.minDiagramWidth) {
+    if (this.container.offsetWidth > this.minDiagramWidth) {
       this.redrawDiagram();
     }
   }
 
   redrawDiagram() {
-    d3.select('.chart').selectAll('*').remove();
-    this.printDiagramExtended();
+    d3.select(this.containerId).selectAll('*').remove();
+    this.printDiagram();
   }
 
   controlButtonClicked(e) {
     const button = e.currentTarget;
+
+    for (let btn of document.querySelectorAll('.controlButton')) {
+      btn.classList.remove('active');
+    }
+    button.classList.add('active');
     const dataRow = button.getAttribute('data-column');
     this.updateDiagram(dataRow);
   }
@@ -61,7 +71,7 @@ export default class MainGraph {
     const margin = {
       top: 10, right: 30, bottom: 250, left: 30,
     };
-    let chartWidth = document.querySelector('.chart').offsetWidth;
+    let chartWidth = this.container.offsetWidth;
     if (chartWidth < this.minDiagramWidth) {
       chartWidth = this.minDiagramWidth;
     }
@@ -70,8 +80,8 @@ export default class MainGraph {
     const width = chartWidth - margin.left - margin.right;
     const height = chartHeight + margin.top + margin.bottom;
 
-    // append the svg object to the .chart
-    const svg = d3.select('.chart')
+    // append the svg object
+    const svg = d3.select(this.containerId)
       .append('svg')
       .attr('width', width + margin.left + margin.right)
       .attr('height', height + margin.top + margin.bottom)
@@ -201,7 +211,7 @@ export default class MainGraph {
 
     if(this.previous.GeoAreaName === d.GeoAreaName) {
       // same area as element before
-      console.log(`from ${this.previous.GeoAreaName}_${this.previous.Location} to ${d.GeoAreaName}_${d.Location}`);
+      // console.log(`from ${this.previous.GeoAreaName}_${this.previous.Location} to ${d.GeoAreaName}_${d.Location}`);
       line = true;
       id = `${this.previous.GeoAreaName.trim().toLowerCase()}_${this.previous.Location}_TO_${d.GeoAreaName.trim().toLowerCase()}_${d.Location}`;
       coordinates.x1 = this.x(this.previous.Id);
@@ -277,7 +287,7 @@ export default class MainGraph {
     });
   }
 
-  printDiagram(target) {
+  printDiagram() {
     /**
      * define dimensions
      */
@@ -285,11 +295,12 @@ export default class MainGraph {
       top: 10, right: 30, bottom: 50, left: 70,
     };
 
-    let chartWidth = document.querySelector(target).offsetWidth;
+    let chartWidth = this.container.offsetWidth;
+    let chartHeight = 480;
     if (chartWidth < this.minDiagramWidth) {
       chartWidth = this.minDiagramWidth;
-    }
-    const chartHeight = chartWidth / 2.5;
+      chartHeight = this.minDiagramHeight;
+    } 
 
     this.width = chartWidth - margin.left - margin.right;
     this.height = chartHeight - margin.top - margin.bottom;
@@ -297,7 +308,7 @@ export default class MainGraph {
     /**
      * create svg object
      */
-    this.svg = d3.select(target)
+    this.svg = d3.select(this.containerId)
       .append('svg')
         .attr('width', this.width + margin.left + margin.right)
         .attr('height', this.height + margin.top + margin.bottom)
@@ -312,6 +323,7 @@ export default class MainGraph {
 
     this.xAxis = this.svg.append('g')
       .attr('transform', `translate(0,${this.height})`)
+      .attr('class', 'xAxis')
 
     // Y axis
     this.y = d3.scaleLinear()
@@ -319,7 +331,7 @@ export default class MainGraph {
       .range([0, this.height]);
 
     this.yAxis = this.svg.append('g')
-      .attr('class', 'myYAxis')
+      .attr('class', 'yAxis')
 
     // Y axis
     this.yAxis.call(d3.axisLeft(this.y))
@@ -328,7 +340,7 @@ export default class MainGraph {
         if(t == 0){
           return 'World 2017';
         }
-        return t + '%';
+        return t + ' %';
       })
       .attr('id', (t) => `y_Indicator_${t}`)
       .attr('font-weight', (t) => {
@@ -355,5 +367,7 @@ export default class MainGraph {
         .attr('stroke-width', '1px')
         .attr('id', `helpLine${i}`);
     }
+
+    this.updateDiagram(this.initialValue);
   }
 }
