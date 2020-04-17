@@ -62,7 +62,7 @@ Based on Sketch number 3 I created a detailled version
 I was new to D3.js so first of all I had to get to know how this library works. In my [links](#links) I saved tutorial pages which helped me best.
 
 #### Worldwide development
-I created two diagrams. One simple one to visualize how the worldwide situation developed between 2000 and 2017.
+I created two diagrams. The first is a simple one to visualize how the worldwide situation developed between 2000 and 2017.
 ![World-Graph](assets/graph-world-whitespace.png "Simple diagram with world development")
 
 #### Difference to world index
