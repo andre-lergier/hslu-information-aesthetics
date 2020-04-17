@@ -92,7 +92,6 @@ export default class MainGraph {
   }
 
   mousemove(d) {
-    console.log(d);
     this.tooltip
       .html("The exact value of<br>the Ground Living area is: " + d.GeoAreaName)
       .html(() => {

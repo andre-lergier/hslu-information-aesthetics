@@ -59,11 +59,11 @@ Based on Sketch number 3 I created a detailled version
 ![Skizze 6](assets/skizze-6.png "Skizze Diagramm")
 
 ## Code in D3
-I was new to D3.js so first of all I had to get to know how this library works. In my [links](##Links) I saved tutorial pages which helped me best.
+I was new to D3.js so first of all I had to get to know how this library works. In my [links](#links) I saved tutorial pages which helped me best.
 
 #### Worldwide development
 I created two diagrams. One simple one to visualize how the worldwide situation developed between 2000 and 2017.
-![World-Graph](assets/graph-world.png "Simple diagram with world development")
+![World-Graph](assets/graph-world-whitespace.png "Simple diagram with world development")
 
 #### Difference to world index
 My main diagram was the one I made the concept in my sketches. It visualizes the difference of continents compared to the world index. <br>
