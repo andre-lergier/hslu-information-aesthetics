@@ -125,6 +125,6 @@ An article that might help to solve this problem I found here: [StackOverflow](h
   - Tooltip: https://www.d3-graph-gallery.com/graph/interactivity_tooltip.html#template
   - Tooltip: https://www.d3-graph-gallery.com/graph/scatter_tooltip.html
 
-#### Diverses
+#### More
 - Pinterest Board: https://www.pinterest.ch/andrelergier/data-visualization/
 
