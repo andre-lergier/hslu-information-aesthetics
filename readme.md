@@ -1,6 +1,15 @@
 # Infographic about UN Sustainable Goal 6
 This is a project I did in the course __Studio Information Aesthetics & Engineering Extended__ in my Digital Ideation studies at Lucerne University of Applied Science and Arts HSLU.
 
+My main goal was to create an interactive diagram with __d3.js__, what wasn't possible without a long data analysis and concept phase.<br>
+The final result can be found here: [un-sustainable-goal-infographic.hslu.lergier.ch](https://un-sustainable-goal-infographic.hslu.lergier.ch/)
+
+![Skizze 5](assets/graph-animated.gif "Animated Diagram")
+
+## Dataset
+As dataset we reveived the [UN Sustainable Development Goals](https://sustainabledevelopment.un.org/).<br>
+I decided to work with the following data:
+
 ---
 
 __Goal 6 Clean Water and Sanitation__:<br>
@@ -50,7 +59,24 @@ Based on Sketch number 3 I created a detailled version
 ![Skizze 6](assets/skizze-6.png "Skizze Diagramm")
 
 ## Code in D3
-To run the project, use the following commands.<br>
+I was new to D3.js so first of all I had to get to know how this library works. In my [links](##Links) I saved tutorial pages which helped me best.
+
+#### Worldwide development
+I created two diagrams. One simple one to visualize how the worldwide situation developed between 2000 and 2017.
+![World-Graph](assets/graph-world.png "Simple diagram with world development")
+
+#### Difference to world index
+My main diagram was the one I made the concept in my sketches. It visualizes the difference of continents compared to the world index. <br>
+It's made interactive so it's possible to change the year, hover points and to toggle the labels. By the way - creating this unfortunately not very nice looking labels was one of the biggest challenges in this code.
+
+##### Initial view with Tooltip
+![World-Graph](assets/graph-main-tooltip.png "Main diagram without labels and tooltip")
+
+##### View with labels
+![World-Graph](assets/graph-labels.png "Main diagram with labels")
+
+### Run the code
+To run the project, clone the repo and use the following commands.<br>
 The project uses webpack, which compiles all files including `scss` automatically.
 
 Initialize project and install dependencies.
@@ -68,6 +94,12 @@ For __Production__ mode:
 npm run build
 ```
 
+### Challenges
+I had some problems to separate the different geographical areas into groups on the x-Axis. Arriving to add some space between the different continents would improve the readability.
+An article that might help to solve this problem I found here: [StackOverflow](https://stackoverflow.com/questions/37265851/d3-nested-group-as-x-axis), [jsFiddle](https://jsfiddle.net/rnoo6buy/)
+
+---
+
 ## Links
 #### Sustainable Development Goals
 - Sustainable Development Goals Knowledge Platform: https://sustainabledevelopment.un.org/?menu=1300
@@ -84,8 +116,14 @@ npm run build
 - Lollipop-Diagram: https://www.d3-graph-gallery.com/graph/lollipop_cleveland.html
   - Basic Lollipop: https://www.d3-graph-gallery.com/graph/lollipop_basic.html
   - Overview: https://www.d3-graph-gallery.com/lollipop.html
+  - Example: http://graphics.wsj.com/gender-pay-gap/
 - Multiple Line Diagram: https://www.d3-graph-gallery.com/graph/connectedscatter_multi.html
 - Load Data: https://blog.bitsrc.io/how-to-create-charts-from-external-data-sources-with-d3-js-4abbcb574706
+- Interactive Elements:
+  - Update data: https://www.d3-graph-gallery.com/graph/lollipop_button_data_csv.html
+  - Update data: https://www.d3-graph-gallery.com/graph/barplot_button_data_simple.html
+  - Tooltip: https://www.d3-graph-gallery.com/graph/interactivity_tooltip.html#template
+  - Tooltip: https://www.d3-graph-gallery.com/graph/scatter_tooltip.html
 
 #### Diverses
 - Pinterest Board: https://www.pinterest.ch/andrelergier/data-visualization/

@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;600;700&family=Roboto:wght@300;400;700;900&display=swap');
 
-$connectedDevicesHeight: 130px;
 $screen-sm-max: 767.98px;
 $padding: 40px;
 $padding-sm: 25px;
@@ -316,6 +315,11 @@ a {
   @media screen and (max-width: $screen-sm-max) {
     padding-top: 50px;
   }
+}
+
+.project-info{
+  font-size: .8rem;
+  margin-top: 25px;
 }
 
 .impressum {

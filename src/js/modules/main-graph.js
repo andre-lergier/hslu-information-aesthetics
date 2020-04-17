@@ -13,13 +13,15 @@ export default class MainGraph {
     this.minDiagramWidth = 1000;
     this.minDiagramHeight = 425;
 
+    // for connection line
     this.previous = null;
 
-    // labels
+    // for ingraph labels
     this.previousLabel = null;
     this.previousPreviousLabel = null;
     this.previousPreviousPreviousLabel = null;
 
+    // shared information about diagram
     this.svg = null;
     this.x = null;
     this.y = null;
@@ -33,22 +35,17 @@ export default class MainGraph {
     this.initListeners();
   }
 
-  loadCsv() {
-    return d3.dsv(';', this.dataSrcCsvExtended, d3.autoType);
-  }
-
-  loadJson() {
-    return d3.json(this.dataSrcJson, d3.autoType);
-  }
-
   initListeners() {
+    // window resize
     window.addEventListener('resize', this.resizeWindow.bind(this));
 
+    // button controls
     const controlButtons = document.querySelectorAll('.controlButton');
     for (let button of controlButtons) {
       button.addEventListener('click', this.controlButtonClicked.bind(this));
     }
 
+    // labels checkbox
     const labelsCheckbox = document.querySelector('#toggleLabels');
     labelsCheckbox.addEventListener('change', (e) => {
       if(e.currentTarget.checked) {
@@ -56,7 +53,7 @@ export default class MainGraph {
       } else {
         this.container.classList.add('hideLabels');
       }
-  });
+    });
   }
 
   resizeWindow() {
@@ -84,6 +81,9 @@ export default class MainGraph {
   }
 
 
+  /**
+   * Tooltip
+   */
   initTooltip() {
     this.tooltip = d3.select(this.containerId)
     .append("div")
@@ -122,6 +122,9 @@ export default class MainGraph {
       .style("opacity", 0)
   }
 
+  /**
+   * Simple Diagram (not bird style)
+   */
   printSimpleDiagram() {
     const margin = {
       top: 10, right: 30, bottom: 250, left: 30,
@@ -240,6 +243,11 @@ export default class MainGraph {
     });
   }
 
+  /**
+   * Function to return coordinates for connection lines
+   * @param {*} d data
+   * @param {*} requested dataset / year: latest or initial
+   */
   getCoordinates(d, requested) {
     let coordinates = {
       x1: 0,
@@ -282,12 +290,16 @@ export default class MainGraph {
       coordinates.y2 = 0;
     }
 
-    // previousTemp = previous;
     this.previous = d;
 
     return coordinates;
   }
 
+  /**
+   * Function to return position and content of a label for each group
+   * @param {*} d data
+   * @param {*} requested dataset / year: latest or initial
+   */
   getLabelPosition(d, requested) {
     let coordinates = {
       x: 0,
@@ -389,6 +401,10 @@ export default class MainGraph {
     }
   }
 
+  /**
+   * Necessary function for animation
+   * @param {*} requestedData dataset / year: latest or initial
+   */
   updateDiagram(requestedData){
     // Parse the Data
     d3.dsv(';', this.dataSrcCsvExtended, d3.autoType).then((data) => {
@@ -425,7 +441,7 @@ export default class MainGraph {
           // .attr('id', id)
           .attr('stroke-width', (d) => (d.Rural2 == null || d.AllArea2 == null ? this.lineWidth : this.lineWidth))
         
-      let b = this.svg.selectAll('.ingraphLabel')
+      const b = this.svg.selectAll('.ingraphLabel')
         .data(data);
 
       b.enter()
@@ -473,6 +489,9 @@ export default class MainGraph {
     });
   }
 
+  /**
+   * Main function to print diagram
+   */
   printDiagram() {
     /**
      * define dimensions

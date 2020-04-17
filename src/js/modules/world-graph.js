@@ -11,14 +11,6 @@ export default class WorldGraph {
     this.lineWidth = '1.5';
     this.minDiagramWidth = 500;
 
-    this.svg = null;
-    this.x = null;
-    this.y = null;
-    this.xAxis = null;
-    this.yAxis = null;
-    this.width = null;
-    this.height = null;
-
     this.reorderedData = null;
 
     this.initListeners();
